@@ -35,6 +35,10 @@ public class VaultsController : ControllerBase
     try
     {
       var vault = _vs.GetVault(id);
+      if (vault.IsPrivate == true)
+      {
+        throw new Exception("This vault is private");
+      }
       return Ok(vault);
     }
     catch (Exception e)

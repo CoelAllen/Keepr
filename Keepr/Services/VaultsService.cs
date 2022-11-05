@@ -15,12 +15,25 @@ public class VaultsService
     return _vr.CreateVault(data);
   }
 
+  internal List<Vault> GetVaults(string profileId)
+  {
+    var vaults = _vr.GetVaults(profileId);
+    return vaults;
+  }
+  internal List<Vault> GetMyVaults(string id)
+  {
+    return _vr.GetMyVaults(id);
+  }
   internal Vault GetVault(int id)
   {
     var vault = _vr.GetVault(id);
     if (vault == null)
     {
       throw new Exception("Bad Vault Id");
+    }
+    if (vault.IsPrivate == true)
+    {
+      throw new Exception("This vault is Private");
     }
     return vault;
   }
@@ -41,6 +54,7 @@ public class VaultsService
     return updated;
   }
 
+
   internal void DeleteRestaurant(int id, string userId)
   {
     var vault = GetVault(id);
@@ -50,4 +64,5 @@ public class VaultsService
     }
     _vr.Delete(id);
   }
+
 }

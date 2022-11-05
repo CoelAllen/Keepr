@@ -9,9 +9,14 @@ public class VaultKeepsService
     _vkr = vkr;
   }
 
-  internal VaultKeep CreateVaultKeep(VaultKeep data)
+  internal VaultKeep CreateVaultKeep(VaultKeep data, string userId)
   {
-    return _vkr.CreateVaultKeep(data);
+    var vaultKeep = _vkr.CreateVaultKeep(data);
+    if (vaultKeep.CreatorId != userId)
+    {
+      throw new Exception("Incorrect Login credentials");
+    }
+    return vaultKeep;
   }
 
   internal List<Keep> GetKeepsByVaultId(int id)
@@ -35,11 +40,12 @@ public class VaultKeepsService
     {
       throw new Exception("This is not Yours!");
     }
-    var removed = _vkr.DeleteVaultKeep(id);
+    _vkr.DeleteVaultKeep(id);
     // if (removed = null)
     // {
     //   throw new Exception("Unable to delete");
     // }
     return "Successfully Deleted";
   }
+
 }

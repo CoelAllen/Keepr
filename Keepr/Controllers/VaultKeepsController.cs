@@ -14,13 +14,9 @@ public class VaultKeepsController : ControllerBase
     try
     {
       var userInfo = await _ap.GetUserInfoAsync<Account>(HttpContext);
-      if (userInfo == null || userInfo.Id == null)
-      {
-        throw new Exception("Login invalid");
-      }
       data.CreatorId = userInfo?.Id;
-      var vKeep = _vks.CreateVaultKeep(data);
-      return Ok(data);
+      var vKeep = _vks.CreateVaultKeep(data, userInfo?.Id);
+      return Ok(vKeep);
     }
     catch (Exception e)
     {

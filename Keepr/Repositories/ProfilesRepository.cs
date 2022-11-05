@@ -12,9 +12,9 @@ public class ProfilesRepository
   {
     var sql = @"
     SELECT 
-    a.*
-    FROM accounts a
-    WHERE a.id = @profileId
+    *
+    FROM accounts
+    WHERE id = @profileId
     ;";
     return _db.Query<Profile>(sql, new { profileId }).FirstOrDefault();
   }

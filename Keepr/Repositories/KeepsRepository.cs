@@ -38,6 +38,23 @@ public class KeepsRepository : BaseRepository
     return GetKeep(data.Id);
   }
 
+  internal List<Keep> GetKeeps(string profileId)
+  {
+    var sql = @"
+    SELECT 
+    k.*,
+    a.*
+    FROM keeps k
+    JOIN accounts a ON a.id = k.creatorId
+    WHERE k.creatorId = @profileId
+    ;";
+    return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+    {
+      k.Creator = p;
+      return k;
+    }, new { profileId }).ToList();
+  }
+
   internal List<Keep> GetKeeps()
   {
     var sql = @"
@@ -52,6 +69,22 @@ public class KeepsRepository : BaseRepository
       k.Creator = p;
       return k;
     }).ToList();
+  }
+  internal Keep GetKeep(int id)
+  {
+    var sql = @"
+     SELECT
+     k.*,
+     a.*
+     FROM keeps k
+     JOIN accounts a ON a.id = k.creatorID
+     WHERE k.id =@id
+    ;";
+    return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+    {
+      k.Creator = p;
+      return k;
+    }, new { id }).FirstOrDefault();
   }
 
   internal Keep UpdateKeep(Keep original)
@@ -79,20 +112,4 @@ public class KeepsRepository : BaseRepository
     _db.Execute(sql, new { id });
   }
 
-  internal Keep GetKeep(int id)
-  {
-    var sql = @"
-     SELECT
-     k.*,
-     a.*
-     FROM keeps k
-     JOIN accounts a ON a.id = k.creatorID
-     WHERE k.id =@id
-    ;";
-    return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
-    {
-      k.Creator = p;
-      return k;
-    }, new { id }).FirstOrDefault();
-  }
 }

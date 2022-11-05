@@ -30,6 +30,10 @@ public class KeepsService
   {
     return _kr.GetKeeps();
   }
+  internal List<Keep> GetKeeps(string profileId)
+  {
+    return _kr.GetKeeps(profileId);
+  }
 
   internal Keep UpdateKeep(Keep keep, string userId)
   {
@@ -47,6 +51,7 @@ public class KeepsService
     var updated = _kr.UpdateKeep(original);
     return updated;
   }
+
 
   internal void DeleteKeep(int keepId, string userId)
   {

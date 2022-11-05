@@ -32,6 +32,40 @@ public class VaultsRepository : BaseRepository
     return GetVault(data.Id);
   }
 
+  internal List<Vault> GetMyVaults(string id)
+  {
+    var sql = @"
+    SELECT
+    v.*,
+    a.*
+    FROM vaults v
+    JOIN accounts a ON a.id = v.creatorId
+    WHERE a.id = @id
+    ;";
+    return _db.Query<Vault, Account, Vault>(sql, (v, a) =>
+    {
+      v.Creator = a;
+      return v;
+    }, new { id }).ToList();
+  }
+
+  internal List<Vault> GetVaults(string profileId)
+  {
+    var sql = @"
+    SELECT 
+    v.*,
+    a.*
+    FROM vaults v
+    JOIN accounts a ON a.id = v.creatorId
+    WHERE v.creatorId = @profileId AND v.isPrivate = 0
+    ;";
+    return _db.Query<Vault, Profile, Vault>(sql, (v, p) =>
+    {
+      v.Creator = p;
+      return v;
+    }, new { profileId }).ToList();
+  }
+
   internal Vault GetVault(int id)
   {
     var sql = @"
@@ -40,7 +74,7 @@ public class VaultsRepository : BaseRepository
     a.*
     FROM vaults v
     JOIN accounts a ON a.id = v.creatorId
-    WHERE v.id = @id    
+    WHERE v.id = @id
     ;";
     return _db.Query<Vault, Profile, Vault>(sql, (v, p) =>
     {

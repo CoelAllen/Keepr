@@ -54,3 +54,10 @@ CREATE TABLE
     ) default charset utf8 COMMENT '';
 
 DROP TABLE vaultKeeps;
+
+SELECT vk.*, k.*, v.*, a.*
+FROM vaultKeeps vk
+    JOIN keeps k ON k.id = vk.keepId
+    JOIN vaults v ON v.id = vk.vaultId
+    JOIN accounts a ON a.id = vk.creatorId
+WHERE vk.vaultId = v.id;

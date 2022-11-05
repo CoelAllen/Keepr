@@ -22,6 +22,7 @@ public class VaultKeepsRepository : BaseRepository
     ;";
     data.Id = _db.ExecuteScalar<int>(sql, data);
     return data;
+
   }
 
   internal VaultKeep GetVaultKeep(int id)
@@ -36,17 +37,20 @@ public class VaultKeepsRepository : BaseRepository
     return _db.Query<VaultKeep>(sql, new { id }).FirstOrDefault();
   }
 
+  // TODO This still doesn't work and I need to check if vault.isPrivate is false for auth checks
   internal List<Keep> GetKeepsByVaultId(int id)
   {
     var sql = @"
-    SELECT 
-    k.*,
-    vk.*,
-    a.*
-    FROM keeps k
-    JOIN vaultKeeps vk ON vk.keepId = k.id
-    JOIN accounts a ON a.id = k.creatorId
-    WHERE vk.vaultId = @id
+    SELECT
+      vk.*,
+      k.*,
+      v.*,
+      a.*
+      FROM vaultKeeps vk
+      JOIN keeps k ON k.id =vk.keepId
+      JOIN vaults v ON v.id = vk.vaultId
+      JOIN accounts a ON a.id = vk.creatorId
+      WHERE vk.vaultId = @id
     ;";
     return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
     {
@@ -56,12 +60,28 @@ public class VaultKeepsRepository : BaseRepository
 
   }
 
-  internal object DeleteVaultKeep(int id)
+  internal void DeleteVaultKeep(int id)
   {
     var sql = @"
     DELETE FROM vaultKeeps
     WHERE id = @id LIMIT 1
     ;";
-    return _db.Execute(sql, new { id });
+    _db.Execute(sql, new { id });
   }
 }
+
+// NOTE this is another try at the dirty keeps thing
+// SELECT
+// vk.*,
+// k.*,
+// a.*,
+// v.*
+// FROM vaultKeeps vk
+
+// JOIN keeps k ON k.id = vk.keepId
+
+// JOIN accounts a ON a.id = vk.creatorId
+
+// JOIN vaults v ON v.id = vk.vaultId
+
+// WHERE vk.vaultId = @id AND v.isPrivate = 0

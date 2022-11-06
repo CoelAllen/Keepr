@@ -24,6 +24,7 @@ public class VaultsService
   {
     return _vr.GetMyVaults(id);
   }
+
   internal Vault GetVault(int id)
   {
     var vault = _vr.GetVault(id);

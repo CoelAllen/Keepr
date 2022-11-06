@@ -32,30 +32,30 @@ public class VaultKeepsRepository : BaseRepository
     *
 
     FROM vaultKeeps
-    WHERE vaultKeeps.id = @id
+    WHERE id = @id
     ;";
     return _db.Query<VaultKeep>(sql, new { id }).FirstOrDefault();
   }
 
   // TODO This still doesn't work and I need to check if vault.isPrivate is false for auth checks
-  internal List<Keep> GetKeepsByVaultId(int id)
+
+  // NOTE Ask about bearer token issue-incognito gives same token as regular window.
+  internal List<VaultedKeep> GetKeepsByVaultId(int id)
   {
     var sql = @"
     SELECT
-      vk.*,
-      k.*,
-      v.*,
-      a.*
-      FROM vaultKeeps vk
-      JOIN keeps k ON k.id =vk.keepId
-      JOIN vaults v ON v.id = vk.vaultId
-      JOIN accounts a ON a.id = vk.creatorId
-      WHERE vk.vaultId = @id
+    k.*,
+    vk.id AS vaultKeepId,
+    a.*
+    FROM vaultKeeps vk
+    JOIN keeps k ON k.id = vk.keepId
+    JOIN accounts a ON a.id = vk.creatorId
+    WHERE vk.vaultId = @id
     ;";
-    return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+    return _db.Query<VaultedKeep, Profile, VaultedKeep>(sql, (v, p) =>
     {
-      k.Creator = p;
-      return k;
+      v.Creator = p;
+      return v;
     }, new { id }).ToList();
 
   }
@@ -67,6 +67,7 @@ public class VaultKeepsRepository : BaseRepository
     WHERE id = @id LIMIT 1
     ;";
     _db.Execute(sql, new { id });
+
   }
 }
 

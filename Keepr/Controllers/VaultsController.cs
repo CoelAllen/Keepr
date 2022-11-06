@@ -82,11 +82,22 @@ public class VaultsController : ControllerBase
   }
 
   [HttpGet("{vaultId}/keeps")]
-  public ActionResult<List<Keep>> GetKeepsByVaultId(int id)
+  public async Task<ActionResult<List<VaultedKeep>>> GetKeepsByVaultId(int id)
   {
     try
     {
+      var userInfo = await _ap.GetUserInfoAsync<Account>(HttpContext);
       var keeps = _vks.GetKeepsByVaultId(id);
+      // var vault = _vs.GetVault(id);
+
+      // if (vault.IsPrivate == true && userInfo?.Id != vault.CreatorId)
+      // {
+      //   throw new Exception("Access Denied");
+      // }
+      // else if (vault.IsPrivate == true && userInfo?.Id == vault.CreatorId)
+      // {
+      //   return Ok(keeps);
+      // }
       return Ok(keeps);
     }
     catch (Exception e)

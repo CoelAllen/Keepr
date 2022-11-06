@@ -35,7 +35,9 @@ public class KeepsRepository : BaseRepository
     data.CreatedAt = DateTime.Now;
     data.UpdatedAt = DateTime.Now;
     data.Id = _db.ExecuteScalar<int>(sql, data);
-    return GetKeep(data.Id);
+    // return GetKeep(data.Id);
+    // NOTE this is to populate stuff I think ^
+    return data;
   }
 
   internal List<Keep> GetKeeps(string profileId)

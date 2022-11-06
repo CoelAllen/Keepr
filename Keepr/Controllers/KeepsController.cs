@@ -48,6 +48,7 @@ public class KeepsController : ControllerBase
         throw new Exception("You must be logged in");
       }
       data.CreatorId = userInfo?.Id;
+      data.Creator = userInfo;
       var keep = _ks.CreateKeep(data);
       return Ok(keep);
     }

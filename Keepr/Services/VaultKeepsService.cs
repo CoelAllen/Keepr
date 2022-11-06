@@ -16,12 +16,17 @@ public class VaultKeepsService
     {
       throw new Exception("Incorrect Login credentials");
     }
-    return vaultKeep;
+    else
+    {
+
+      return vaultKeep;
+    }
   }
 
-  internal List<Keep> GetKeepsByVaultId(int id)
+  internal List<VaultedKeep> GetKeepsByVaultId(int id)
   {
-    return _vkr.GetKeepsByVaultId(id);
+    var keeps = _vkr.GetKeepsByVaultId(id);
+    return keeps;
   }
   internal VaultKeep GetVaultKeep(int id)
   {
@@ -33,7 +38,7 @@ public class VaultKeepsService
     return keep;
   }
 
-  internal string DeleteVaultKeep(int id, string userId)
+  internal void DeleteVaultKeep(int id, string userId)
   {
     var keep = GetVaultKeep(id);
     if (keep.CreatorId != userId)
@@ -45,7 +50,6 @@ public class VaultKeepsService
     // {
     //   throw new Exception("Unable to delete");
     // }
-    return "Successfully Deleted";
   }
 
 }

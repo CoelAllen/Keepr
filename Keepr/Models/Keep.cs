@@ -13,6 +13,9 @@ public class Keep
   public Profile Creator { get; set; }
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }
+}
 
-
+public class VaultedKeep : Keep
+{
+  public int VaultKeepId { get; set; }
 }

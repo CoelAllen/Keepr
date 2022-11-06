@@ -81,23 +81,25 @@ public class VaultsController : ControllerBase
     }
   }
 
+
+
   [HttpGet("{vaultId}/keeps")]
-  public async Task<ActionResult<List<VaultedKeep>>> GetKeepsByVaultId(int id)
+  public async Task<ActionResult<List<VaultedKeep>>> GetKeepsByVaultId(int vaultId)
   {
     try
     {
       var userInfo = await _ap.GetUserInfoAsync<Account>(HttpContext);
-      var keeps = _vks.GetKeepsByVaultId(id);
-      // var vault = _vs.GetVault(id);
+      var keeps = _vks.GetKeepsByVaultId(vaultId);
+      var vault = _vs.GetVault(vaultId);
 
-      // if (vault.IsPrivate == true && userInfo?.Id != vault.CreatorId)
-      // {
-      //   throw new Exception("Access Denied");
-      // }
-      // else if (vault.IsPrivate == true && userInfo?.Id == vault.CreatorId)
-      // {
-      //   return Ok(keeps);
-      // }
+      if (vault.IsPrivate == true && userInfo?.Id != vault.CreatorId)
+      {
+        throw new Exception("Access Denied");
+      }
+      else if (vault.IsPrivate == true && userInfo?.Id == vault.CreatorId)
+      {
+        return Ok(keeps);
+      }
       return Ok(keeps);
     }
     catch (Exception e)
@@ -105,8 +107,6 @@ public class VaultsController : ControllerBase
       return BadRequest(e.Message);
     }
   }
-
-
 
   public VaultsController(VaultsService vs, Auth0Provider ap, VaultKeepsService vks)
   {

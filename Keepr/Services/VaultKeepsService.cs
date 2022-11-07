@@ -23,9 +23,9 @@ public class VaultKeepsService
     }
   }
 
-  internal List<VaultedKeep> GetKeepsByVaultId(int id)
+  internal List<VaultedKeep> GetKeepsByVaultId(int vaultId)
   {
-    var keeps = _vkr.GetKeepsByVaultId(id);
+    var keeps = _vkr.GetKeepsByVaultId(vaultId);
     return keeps;
   }
   internal VaultKeep GetVaultKeep(int id)

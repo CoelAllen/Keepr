@@ -3,24 +3,28 @@ namespace Keepr.Services;
 public class VaultKeepsService
 {
   private readonly VaultKeepsRepository _vkr;
+  private readonly VaultsRepository _vr;
 
-  public VaultKeepsService(VaultKeepsRepository vkr)
+  public VaultKeepsService(VaultKeepsRepository vkr, VaultsRepository vr)
   {
     _vkr = vkr;
+    _vr = vr;
   }
 
   internal VaultKeep CreateVaultKeep(VaultKeep data, string userId)
   {
     var vaultKeep = _vkr.CreateVaultKeep(data);
+    var vault = _vr.GetVault(data.VaultId);
+    if (vault.CreatorId != userId)
+    {
+      throw new Exception("Not your vault");
+    }
     if (vaultKeep.CreatorId != userId)
     {
       throw new Exception("Incorrect Login credentials");
     }
-    else
-    {
 
-      return vaultKeep;
-    }
+    return vaultKeep;
   }
 
   internal List<VaultedKeep> GetKeepsByVaultId(int vaultId)

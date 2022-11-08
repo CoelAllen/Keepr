@@ -5,14 +5,14 @@
   <main>
     <router-view />
   </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
-  </footer>
+
+  <KeepDetailModal />
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
+import KeepDetailModal from './components/KeepDetailModal.vue'
 import Navbar from './components/Navbar.vue'
 
 export default {
@@ -21,13 +21,13 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { Navbar, KeepDetailModal }
 }
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
-:root{
+:root {
   --main-height: calc(100vh - 32px - 64px);
 }
 

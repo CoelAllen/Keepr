@@ -18,5 +18,4 @@ public class Keep
 public class VaultedKeep : Keep
 {
   public int VaultKeepId { get; set; }
-  public new string CreatorId { get; set; }
 }

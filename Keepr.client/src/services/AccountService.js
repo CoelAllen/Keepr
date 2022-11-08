@@ -1,4 +1,5 @@
 import { AppState } from '../AppState'
+import { Account } from '../models/Account.js'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
@@ -10,6 +11,11 @@ class AccountService {
     } catch (err) {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
+  }
+  async getProfile(id) {
+    const res = await api.get('api/profiles/' + id)
+    console.log(res.data);
+    AppState.activeProfile = new Account(res.data)
   }
 }
 

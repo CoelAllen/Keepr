@@ -8,21 +8,21 @@
   <div class="row">
     <div class="col-md-12 mt-5 text-center">
       <h3>{{ profile.name }}</h3>
-      <p>5 Vaults | {{ keeps.length }} Keeps</p>
+      <p>{{ vaults.length }} Vaults | {{ keeps.length }} Keeps</p>
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-8 ms-3">
+    <div class="col-md-8 ms-3" v-if="vaults.length > 0">
       <h1>Vaults</h1>
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="col-md-8 d-flex flex-wrap">
 
-      <div class="col-md-3 py-3 selectable" v-for="v in vaults">
-        <router-link :to="{ name: 'Vault', params: { vaultId: v.id } }">
-          <VaultCard :key="v.id" :vault="v" />
-        </router-link>
+      <div class="col-md-3 py-3 selectable">
+
+        <VaultCard :key="v.id" :vault="v" v-for="v in vaults" />
+
       </div>
     </div>
   </div>
@@ -30,17 +30,17 @@
 
 
   <div class="row justify-content-center">
-    <div class="col-md-8 ms-3">
+    <div class="col-md-8 ms-3" v-if="keeps.length > 0">
       <h1>Keeps</h1>
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-8 d-flex flex-wrap">
-
-      <div class="col-md-3 py-3 selectable" data-bs-toggle="modal" data-bs-target="#keepDetail" v-for="k in keeps">
-        <KeepCard :key="k.id" :keep="k" @click="makeKeepActive(k)" />
-      </div>
+    <div class="col-md-8 masonry-with-columns p-3 mt-2">
+      <KeepCard :key="k.id" :keep="k" v-for="k in keeps" />
     </div>
+
+
+
   </div>
 </template>
 
@@ -78,6 +78,7 @@ export default {
     async function getVaultsById() {
       try {
         await vaultsService.getProfileVaults(route.params.profileId);
+        console.log('getting vaults');
       }
       catch (error) {
         Pop.error("[getVaultsById]");
@@ -92,10 +93,7 @@ export default {
       profile: computed(() => AppState.activeProfile),
       keeps: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults.filter((v) => v.isPrivate == false)),
-      async makeKeepActive(keep) {
-        AppState.activeKeep = keep;
-        console.log(keep);
-      }
+
     };
   },
   components: { VaultCard }
@@ -118,5 +116,16 @@ export default {
 
 .profile-background {
   position: relative;
+}
+
+.masonry-with-columns {
+  columns: 4;
+  column-gap: 1rem;
+
+
+  img.photo {
+    width: 20vw;
+    margin-top: 1.5rem
+  }
 }
 </style>

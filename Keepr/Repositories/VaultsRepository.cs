@@ -29,7 +29,7 @@ public class VaultsRepository : BaseRepository
     data.CreatedAt = DateTime.Now;
     data.UpdatedAt = DateTime.Now;
     data.Id = _db.ExecuteScalar<int>(sql, data);
-    return GetVault(data.Id);
+    return data;
   }
 
   internal List<Vault> GetMyVaults(string id)

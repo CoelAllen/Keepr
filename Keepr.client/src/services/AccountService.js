@@ -17,6 +17,11 @@ class AccountService {
     console.log(res.data);
     AppState.activeProfile = new Account(res.data)
   }
+
+  async editAccount(data){
+    const res = await api.put('/account', data)
+    AppState.account = res.data
+  }
 }
 
 export const accountService = new AccountService()

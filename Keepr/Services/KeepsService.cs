@@ -21,6 +21,8 @@ public class KeepsService
     {
       throw new Exception("Not a valid Keep");
     }
+    keep.Views++;
+    _kr.UpdateKeep(keep);
     // TODO Add increasing views here
     return keep;
 

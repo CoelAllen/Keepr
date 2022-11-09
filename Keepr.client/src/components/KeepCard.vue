@@ -1,22 +1,23 @@
 <template>
-  <div class="row container-fluid">
-    <div class="keep-card d-flex align-items-end justify-content-between rounded">
-      <div v-if="account?.id == keep?.creatorId">
-        <i class="mdi mdi-alpha-x-circle delete" title="Delete Keep" @click="removeKeep(keep.id)"></i>
+  <div @click="getKeepById()" class="selectable top-div rounded elevation-5 mb-4" data-bs-toggle="modal"
+    data-bs-target="#keepDetail">
+    <img :src="keep.img" class="img-fluid rounded" alt="">
+    <div class="keep-card  rounded">
 
-      </div>
-      <div class="p-2">
-        <h3 class="text-light">{{ keep.name }}</h3>
-      </div>
-      <div v-if="account.id != keep.creatorId">
-        <img :src="keep.creator.picture" :alt="keep.creator.name" class="img-fluid creator-img mb-2">
+      <div class="d-flex align-items-center ps-2">
+
+        <div>
+          <h4 class="text-light mb-1">{{ keep.name }}</h4>
+        </div>
+        <div v-if="account.id != keep.creatorId">
+          <img :src="keep.creator.picture" :alt="keep.creator.name" class="img-fluid creator-img spread">
+        </div>
       </div>
     </div>
   </div>
 
 
-
-
+  <!-- implement my get by id on my homepage here -->
 </template>
 
 
@@ -38,16 +39,16 @@ export default {
     return {
       img: computed(() => `url(${props.keep?.img})`),
       account: computed(() => AppState.account),
-
-      async removeKeep(id) {
+      async getKeepById() {
         try {
-          const yes = await Pop.confirm('Are you sure you want to delete this keep?')
-          if (!yes) { return }
-          await keepsService.removeKeep(id)
+          await keepsService.getKeepById(props.keep.id)
+
         } catch (error) {
-          Pop.error(error, ('[deletingKeep]'))
+          Pop.error(error, "gettingKeepById")
         }
       }
+
+
     }
   }
 }
@@ -55,30 +56,30 @@ export default {
 
 
 <style lang="scss" scoped>
-.keep-card {
-  background-image: v-bind(img);
-  display: inline-block;
-  max-height: 100%;
-  width: 20vw;
-  position: relative;
-  ;
-
-}
-
 .creator-img {
   border-radius: 50%;
   height: 4vh;
 }
 
-h3 {
-  text-shadow: 1px 1px 2px rgb(6, 6, 6)
+.keep-card {
+  position: absolute;
+  bottom: 10px;
 }
 
-.delete {
-  color: red;
-  position: absolute;
-  top: -10px;
-  right: -8px;
+.top-div {
+  position: relative;
 
+
+}
+
+.spread {
+  position: absolute;
+  left: 15vw;
+  bottom: 0px
+}
+
+
+h4 {
+  text-shadow: 1px 1px 2px rgb(6, 6, 6)
 }
 </style>

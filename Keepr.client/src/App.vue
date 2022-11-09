@@ -5,13 +5,13 @@
   <main>
     <router-view />
   </main>
-
   <KeepDetailModal />
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
+import CreateKeepModal from './components/CreateKeepModal.vue'
 import KeepDetailModal from './components/KeepDetailModal.vue'
 import Navbar from './components/Navbar.vue'
 
@@ -21,7 +21,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, KeepDetailModal }
+  components: { Navbar, KeepDetailModal, CreateKeepModal }
 }
 </script>
 <style lang="scss">

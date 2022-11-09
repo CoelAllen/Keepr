@@ -14,12 +14,25 @@ class KeepsService {
   async getProfileKeeps(profileId){
     const res = await api.get('api/profiles/' + profileId + '/keeps')
     AppState.keeps = res.data.map((k) => new Keep(k))
-
+  }
+  async getAccountKeeps(){
+    const res = await api.get('api/account/keeps')
+    AppState.keeps = res.data
+    logger.log(res.data)
   }
   async removeKeep(id){
     api.delete('api/keeps/' + id)
-    AppState.keeps = AppState.keeps.filter(l=> k.id != id)
+    AppState.keeps = AppState.keeps.filter(k=> k.id != id)
   }
-
+  async createKeep(data){
+    const res = await api.post('api/keeps', data)
+    logger.log(res.data)
+    AppState.keeps.push(res.data)
+  }
+  async getKeepById(keepId){
+    const res = await api.get('api/keeps/' + keepId)
+    AppState.activeKeep = res.data
+    logger.log("gettingKeepById", res.data)
+  }
 }
 export const keepsService = new KeepsService()

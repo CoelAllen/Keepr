@@ -1,33 +1,56 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+  <nav class="navbar navbar-expand-lg navbar-dark bg-light px-3 justify-content-between shading">
+    <div class="d-flex">
+      <router-link :to="{ name: 'Home' }" class="btn text-dark bg-secondary selectable h-50">
+        Home
+      </router-link>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+        aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Create
+            </a>
+            <ul class="dropdown-menu dropdown-menu-light">
+              <li><a class="dropdown-item selectable no-select" data-bs-toggle="modal"
+                  data-bs-target="#createKeepModal">new keep</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item selectable no-select" data-bs-toggle="modal"
+                  data-bs-target="#createVaultModal">new
+                  vault</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
-    </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
     </div>
+
+
+    <div class="d-flex flex-column align-items-center me-5">
+      <img alt="logo" src="../assets/img/Keepr-logo.png" height="45" />
+    </div>
+
+    <Login />
   </nav>
+  <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav me-auto">
+      <li><a class= href=""></a>
+      </li>
+    </ul>
+  </div> -->
+  <CreateKeepModal />
+  <CreateVaultModal />
+
 </template>
 
 <script>
@@ -61,4 +84,7 @@ a:hover {
   }
 }
 
+.shading {
+  box-shadow: 0px 3px 3px rgba(174, 171, 171, 0.666);
+}
 </style>

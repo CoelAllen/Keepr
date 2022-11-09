@@ -1,17 +1,24 @@
 <template>
+
+
+
   <div class="row container-fluid">
 
     <div class="vault-card d-flex align-items-end">
       <div class="p-2">
-        <h3 class="text-light">{{ vault.name }}</h3>
+        <router-link :to="{ name: 'Vault', params: { vaultId: vault.id } }">
+          <h3 class="text-light">{{ vault.name }}</h3>
+        </router-link>
       </div>
     </div>
   </div>
+
 </template>
 
 
 <script>
 import { computed } from '@vue/reactivity';
+import { useRoute } from 'vue-router';
 import { AppState } from '../AppState.js';
 
 export default {
@@ -22,6 +29,7 @@ export default {
     }
   },
   setup(props) {
+    const route = useRoute()
     return {
       img: computed(() => `url(${props.vault.img})`),
     }

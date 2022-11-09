@@ -7,17 +7,21 @@
         <h5>by {{ vault.creator?.name }}</h5>
       </div>
     </div>
+    <div class="col-md-12 d-flex justify-content-center mt-4">
+      <div class="keep px-3 py-1">
+        {{ keeps.length }} Keeps
+      </div>
+    </div>
+
 
 
 
 
 
     <div class="row justify-content-center">
-      <div class="col-md-8 d-flex flex-wrap">
+      <div class="col-md-8 masonry-with-columns p-3 mt-2">
+        <KeepCard :key="k.id" :keep="k" v-for="k in keeps" />
 
-        <div class="col-md-3 py-3 selectable" data-bs-toggle="modal" data-bs-target="#keepDetail" v-for="k in keeps">
-          <KeepCard :key="k.id" :keep="k" @click="makeKeepActive(k)" />
-        </div>
       </div>
     </div>
   </div>
@@ -90,5 +94,21 @@ export default {
 .growBoy {
   flex-direction: column;
   height: 18vh;
+}
+
+.masonry-with-columns {
+  columns: 4;
+  column-gap: 1rem;
+
+
+  img.photo {
+    width: 20vw;
+    margin-top: 1.5rem
+  }
+}
+
+.keep {
+  background-color: #DED6E9;
+  border-radius: 3rem;
 }
 </style>

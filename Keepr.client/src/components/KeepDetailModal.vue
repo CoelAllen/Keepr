@@ -24,8 +24,10 @@
               <div class="p-5">
                 <p>{{ keep.description }}</p>
               </div>
-              <div class="d-flex justify-content-between me-2">
-                <div class="d-flex p-2">
+              <div class="d-flex justify-content-between me-2 mb-2">
+
+                <!-- TODO working on the v-if to remove from vault -->
+                <div class="d-flex p-2" v-if="keep.id == vaultKeep.id">
                   <div class="me-1">
                     <select class="form-select" v-model="editable.vaultId" aria-label="Default select example">
                       <option :value='null' selected>Vaults</option>
@@ -35,6 +37,10 @@
                     </select>
                   </div>
                   <button class="btn btn-primary" @click="saveKeepToVault()">Save</button>
+                </div>
+                <!-- TODO see above note -->
+                <div v-else class="remove">
+                  <i @click="removeVaultKeep(vaultKeep.id)" class="mdi mdi-cancel selectable"></i> Remove
                 </div>
 
                 <!-- routerlink -->
@@ -80,6 +86,7 @@ export default {
       keep: computed(() => AppState.activeKeep),
       account: computed(() => AppState.account),
       myVaults: computed(() => AppState.myVaults),
+      vaultKeep: computed(() => AppState.vaultKeeps.filter((v) => v.keepId == AppState.activeKeep.id)),
       async removeKeep(id) {
         try {
           const yes = await Pop.confirm('Are you sure you want to delete this keep?')
@@ -91,12 +98,20 @@ export default {
       },
       async saveKeepToVault() {
         try {
-          editable.keepId = AppState.activeKeep.id
-          editable.creatorId = AppState.account.id
-          console.log(editable.value, "HEY");
-          await vaultKeepsService.createVaultKeep(editable.value)
+          var keep = AppState.activeKeep
+          console.log(editable.value, AppState.activeKeep, "HEY");
+          await vaultKeepsService.createVaultKeep(editable.value, keep.id)
         } catch (error) {
           Pop.error(error, ('[creatingVaultKeep]'))
+        }
+      },
+      async removeVaultKeep(id) {
+        try {
+          const vaultKeep = AppState.vaultKeeps.filter((v) => v.keepId == AppState.activeKeep.id)
+          console.log(vaultKeep.id);
+          await vaultKeepsService.deleteVaultKeep(id)
+        } catch (error) {
+          Pop.error(error, ("[deletingVaultKeep]"))
         }
       }
     }
@@ -113,7 +128,9 @@ export default {
 
 .delete {
   color: red;
+}
 
-
+.remove {
+  border-bottom: 2px solid gray;
 }
 </style>

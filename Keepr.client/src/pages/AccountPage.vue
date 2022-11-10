@@ -132,7 +132,7 @@ export default {
   height: 10vh;
   width: 7vw;
   position: absolute;
-  top: 30rem;
+  top: 35rem;
   border-color: aliceblue;
   border-width: 2px;
   border-style: solid;

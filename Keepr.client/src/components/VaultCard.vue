@@ -2,9 +2,9 @@
 
 
 
-  <div class="row container-fluid">
+  <div class="col-md-3 container-fluid">
 
-    <div class="vault-card d-flex align-items-end">
+    <div class="vault-card rounded d-flex align-items-end">
       <div class="p-2">
         <router-link :to="{ name: 'Vault', params: { vaultId: vault.id } }">
           <h3 class="text-light">{{ vault.name }}</h3>
@@ -43,5 +43,7 @@ export default {
   background-image: v-bind(img);
   min-height: 20vh;
   width: 20vw;
+  background-size: cover;
+  background-position: center;
 }
 </style>

@@ -26,6 +26,7 @@ import { computed } from '@vue/reactivity';
 import { AppState } from '../AppState.js';
 import { Keep } from '../models/Keep.js';
 import { keepsService } from '../services/KeepsService.js';
+import { vaultKeepsService } from '../services/VaultKeepService.js';
 import Pop from '../utils/Pop.js';
 
 export default {
@@ -39,6 +40,8 @@ export default {
     return {
       img: computed(() => `url(${props.keep?.img})`),
       account: computed(() => AppState.account),
+      vaultKeep: computed(() => AppState.vaultKeeps),
+      vault: computed(() => AppState.activeVault),
       async getKeepById() {
         try {
           await keepsService.getKeepById(props.keep.id)
@@ -47,7 +50,6 @@ export default {
           Pop.error(error, "gettingKeepById")
         }
       }
-
 
     }
   }
@@ -58,7 +60,7 @@ export default {
 <style lang="scss" scoped>
 .creator-img {
   border-radius: 50%;
-  height: 4vh;
+  height: 3vh;
 }
 
 .keep-card {
@@ -72,10 +74,10 @@ export default {
 
 }
 
-.spread {
-  position: absolute;
-  left: 15vw;
-  bottom: 0px
+.delete {
+  color: red;
+
+
 }
 
 

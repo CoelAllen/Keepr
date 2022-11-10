@@ -17,13 +17,12 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-8 d-flex flex-wrap">
+    <div class="col-md-8 d-flex flex-wrap me-3">
 
-      <div class="col-md-3 py-3 selectable">
+      <!-- NOTE lining up poorly on page -->
+      <VaultCard :key="v.id" :vault="v" v-for="v in vaults" />
 
-        <VaultCard :key="v.id" :vault="v" v-for="v in vaults" />
 
-      </div>
     </div>
   </div>
 

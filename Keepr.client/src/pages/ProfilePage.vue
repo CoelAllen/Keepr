@@ -1,7 +1,8 @@
 <template>
   <div class="row">
     <div class="mt-3 pe-0 col-12 col-md-12 d-flex justify-content-center">
-      <img class="profile-background img-fluid " :src="profile.coverImg" alt="https://thiscatdoesnotexist.com/">
+
+      <img class="profile-background img-fluid " :src="profile.coverImg" alt="">
       <img class="profile-image " :src="profile.picture" :alt="profile.name">
     </div>
   </div>
@@ -18,16 +19,9 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-md-8 d-flex cards flex-wrap px-0 mx-0">
-
-      <!-- NOTE lining up poorly on page -->
       <VaultCard :key="v.id" :vault="v" v-for="v in vaults" />
-
-
     </div>
   </div>
-
-
-
   <div class="row justify-content-center">
     <div class="col-md-8 ms-3" v-if="keeps.length > 0">
       <h1>Keeps</h1>
@@ -37,12 +31,8 @@
     <div class="col-md-8 masonry-with-columns p-3 mt-2">
       <KeepCard :key="k.id" :keep="k" v-for="k in keeps" />
     </div>
-
-
-
   </div>
 </template>
-
 
 <script>
 import { computed } from '@vue/reactivity';
@@ -104,7 +94,6 @@ export default {
 .profile-image {
   border-radius: 50%;
   height: 10vh;
-
   position: absolute;
   top: 40vh;
   border-color: aliceblue;

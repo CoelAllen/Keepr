@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row  justify-content-center">
-      <div class=" tag col-12 col-md-10 masonry-with-columns  mt-2">
+      <div class=" tag col-12 col-md-10 masonry-with-columns  mt-4">
         <KeepCard :key="k.id" :keep="k" v-for="k in keeps" />
       </div>
     </div>
@@ -36,14 +36,6 @@ export default {
     })
     return {
       keeps: computed(() => AppState.keeps),
-
-      // async getKeepById() {
-      //   try {
-      //     await keepsService.getKeepById()
-      //   } catch (error) {
-      //     Pop.error(error, "[gettingKeepById]")
-      //   }
-      // }
     }
   }
 }
@@ -58,8 +50,6 @@ body {
 .masonry-with-columns {
   columns: 4;
   column-gap: 1rem;
-
-
 
   img.photo {
     width: 20vw;

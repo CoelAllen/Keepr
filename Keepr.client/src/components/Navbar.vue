@@ -43,13 +43,13 @@
 
     <div v-if="account.id">
 
-      <div class="d-flex flex-column align-items-center logo">
+      <div class="d-flex flex-column align-items-center ms-4 logo">
         <img alt="logo" src="../assets/img/Keepr-logo.png" height="45" class="" title="Keepr" />
       </div>
     </div>
     <div v-else>
 
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center ms-4">
         <img alt="logo" src="../assets/img/Keepr-logo.png" height="45" class="" title="Keepr" />
       </div>
     </div>

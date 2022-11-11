@@ -3,17 +3,17 @@
     <div class="col-md-12 mt-3 vault-image">
       <div class="vault-title">
         <div class="growBoy"></div>
-        <h1>{{ vault.name }}</h1>
-        <h5>by {{ vault.creator?.name }}</h5>
+        <h1 :title="vault.name">{{ vault.name }}</h1>
+        <h5 :title="vault.creator?.name">by {{ vault.creator?.name }}</h5>
       </div>
     </div>
     <div class="col-md-12 d-flex justify-content-center mt-4">
-      <div class="keep px-3 py-1">
+      <div class="keep px-3 py-1" :title="keeps.length">
         {{ keeps.length }} Keeps
       </div>
       <div v-if="vault.creatorId == account.id">
         <div class="dropdown ms-2">
-          <div class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="dropdown-toggle" title="Edit or Delete Vault" type="button" data-bs-toggle="dropdown">
             ...
           </div>
           <ul class="dropdown-menu">
@@ -42,24 +42,23 @@
         <div class="modal-head">
           <div>
             <div class="form-floating m-3">
-              <input type="text" v-model="editable.name" class="modal-body form-control pe-3" id="vaultTitleInput"
+              <input type="text" v-model="editable.name" class="modal-body form-control pe-3" id="titleInput"
                 placeholder="Title...">
-              <label for="vaultTitleInput" class="modal-input">Title</label>
+              <label for="titleInput" class="modal-input">Title</label>
             </div>
             <div class="form-floating m-3">
-              <input type="url" v-model="editable.img" class="modal-body form-control pe-3" id="vaultImageInput"
+              <input type="url" v-model="editable.img" class="modal-body form-control pe-3" id="imageInput"
                 placeholder="Image URL...">
-              <label for="vaultImageInput" class="modal-input">Image URL...</label>
+              <label for="imageInput" class="modal-input">Image URL...</label>
             </div>
             <div class="form-floating m-3">
               <input type="text" v-model="editable.description" class="modal-body form-control pe-3"
-                id="vaultImageInput" placeholder="Description...">
-              <label for="vaultImageInput" class="modal-input">Description...</label>
+                id="descriptionInput" placeholder="Description...">
+              <label for="descriptionInput" class="modal-input">Description...</label>
             </div>
             <div class="me-2 mb-2 text-end">
-              <input v-model="editable.isPrivate" class="form-check-input me-1" type="checkbox" value=""
-                id="privateCheck">
-              <label class="form-check-label check-outline" for="privateCheck">
+              <input v-model="editable.isPrivate" class="form-check-input me-1" type="checkbox" value="" id="check">
+              <label class="form-check-label check-outline" for="check">
                 Make Vault Private?
               </label>
             </div>

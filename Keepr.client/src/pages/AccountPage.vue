@@ -1,14 +1,17 @@
 <template>
 
-  <div class="row">
-    <div class="mt-3 col-md-12 d-flex justify-content-center">
-      <img class="account-background img-fluid" :src="account.coverImg" alt="">
+  <div class="row  top-row">
+    <div class="mt-3 col-md-12 d-flex justify-content-center top-row">
+      <img class="account-background img-fluid rounded" :src="account.coverImg" alt="">
       <img class="account-image" :src="account.picture" alt="">
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12 mt-5 text-center">
-      <h3>{{ account.name }}</h3>
+    <div class="col-md-12  text-center mt-5 ">
+      <h3>{{ account.name }}
+        <i class="mdi mdi-account-details-outline selectable fs-5" title="Edit Account Information"
+          data-bs-toggle="modal" data-bs-target="#accountModal"></i>
+      </h3>
       <p>{{ vaults?.length }} Vaults | {{ keeps.length }} Keeps</p>
     </div>
   </div>
@@ -18,25 +21,25 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-8 d-flex flex-wrap">
-      <div class="col-md-3 d-flex py-3" v-for="v in vaults">
-        <VaultCard :key="v.id" :vault="v" />
-      </div>
+    <div class="col-md-8 d-flex cards flex-wrap vaults">
+      <VaultCard :key="v.id" :vault="v" v-for="v in vaults" />
     </div>
+
+
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-8 ms-3">
+    <div class="col-md-8 ms-3 vault">
       <h1>Keeps</h1>
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-8 masonry-with-columns p-3 mt-2">
+    <div class="col-md-8 masonry-with-columns top-row mt-2">
       <KeepCard :key="k.id" :keep="k" v-for="k in keeps" />
     </div>
   </div>
-  <button type="button" class="btn btn-primary editButton" data-bs-toggle="modal" data-bs-target="#accountModal">
+  <!-- <button type="button" class="btn btn-primary editButton" data-bs-toggle="modal" data-bs-target="#accountModal">
     Edit Account
-  </button>
+  </button> -->
 
   <!-- Modal -->
   <form @submit.prevent="editAccount()">
@@ -76,6 +79,7 @@
   
 
 <script>
+import { Modal } from 'bootstrap'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
@@ -96,26 +100,27 @@ export default {
     //     Pop.error(error, "[getAccountVaults]");
     //   }
     // }
-    async function getAllKeeps() {
-      try {
-        await keepsService.getAllKeeps()
-      } catch (error) {
-        Pop.error(error, "[getAccountKeeps]")
-      }
-    }
-    onMounted(() => {
-      // getAccountVaults();
-      getAllKeeps()
-    });
+    // async function getAccountKeeps() {
+    //   try {
+    //     await keepsService.getAccountKeeps(AppState.account.id)
+    //   } catch (error) {
+    //     Pop.error(error, "[getAccountKeeps]")
+    //   }
+    // }
+    // onMounted(() => {
+    //   getAccountVaults();
+    //   getAccountKeeps()
+    // });
     return {
       editable,
       account: computed(() => AppState.account),
       vaults: computed(() => AppState.myVaults),
-      keeps: computed(() => AppState.keeps),
+      keeps: computed(() => AppState.myKeeps),
       async editAccount() {
         try {
           await accountService.editAccount(editable.value)
           editable.value = {}
+          Modal.getOrCreateInstance('#accountModal').hide()
         } catch (error) {
           Pop.error(error, ("[editingAccount]"))
         }
@@ -130,18 +135,20 @@ export default {
 .account-image {
   border-radius: 50%;
   height: 10vh;
-  width: 7vw;
+
   position: absolute;
-  top: 35rem;
+  top: 40vh;
   border-color: aliceblue;
   border-width: 2px;
   border-style: solid;
   box-shadow: 0px 3px 1px 2px rgba(128, 128, 128, 0.584);
+
+
 }
 
 .account-background {
-  position: relative;
-  width: 60vw;
+  height: 40vh;
+  width: auto;
 }
 
 .masonry-with-columns {
@@ -180,8 +187,55 @@ export default {
 
 .editButton {
   position: sticky;
-  bottom: 15vh;
+  bottom: 10vh;
   left: 90vw;
 }
+
+@media screen and (max-width: 768px) {
+  .masonry-with-columns {
+    columns: 2;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+  }
+
+
+
+  .editButton {
+    position: sticky;
+    bottom: 13vh;
+    left: 63vw;
+  }
+
+  .cards {
+    columns: 2;
+    margin-right: 2rem;
+    margin-left: 2rem;
+  }
+
+  .account-image {
+    border-radius: 50%;
+    height: 10vh;
+
+    position: absolute;
+    top: 35vh;
+    border-color: aliceblue;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 0px 3px 1px 2px rgba(128, 128, 128, 0.584);
+
+
+  }
+
+  .vaults {
+    padding: 0;
+    margin: 0;
+  }
+
+  .top-row {
+    margin: 0;
+    padding: 0;
+  }
+
+}
 </style>
-      keeps: computed(() => AppState.keeps.filter((k) => k.creatorId == AppState.account.id))

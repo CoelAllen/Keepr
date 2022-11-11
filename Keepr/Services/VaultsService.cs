@@ -25,23 +25,26 @@ public class VaultsService
     return _vr.GetMyVaults(id);
   }
 
-  internal Vault GetVault(int id)
+  internal Vault GetVault(int id, string userId)
   {
+
     var vault = _vr.GetVault(id);
     if (vault == null)
     {
       throw new Exception("Bad Vault Id");
     }
-    if (vault.IsPrivate == true)
+
+    if (vault.IsPrivate == true && vault.CreatorId != userId)
     {
-      throw new Exception("This vault is Private");
+      throw new Exception("This vault is Private Dog");
     }
     return vault;
   }
 
+
   internal Vault UpdateVault(Vault vault, string userId)
   {
-    var original = GetVault(vault.Id);
+    var original = _vr.GetVault(vault.Id);
     if (original.CreatorId != userId)
     {
       throw new Exception("Cannot edit, not your Vault");
@@ -56,9 +59,9 @@ public class VaultsService
   }
 
 
-  internal void DeleteRestaurant(int id, string userId)
+  internal void DeleteVault(int id, string userId)
   {
-    var vault = GetVault(id);
+    var vault = _vr.GetVault(id);
     if (vault.CreatorId != userId)
     {
       throw new Exception("Unauthorized");

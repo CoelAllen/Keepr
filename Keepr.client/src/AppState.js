@@ -15,6 +15,7 @@ keep: null,
 activeKeep: null,
 vaults: [],
 activeVault: {},
-vaultKeeps: []
+vaultKeeps: [],
+myKeeps: []
 
 })

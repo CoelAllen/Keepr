@@ -33,7 +33,8 @@
 
           </div>
           <div class="modal-footer modal-head">
-            <button type="submit" class="btn btn-dark">Create</button>
+            <button type="button" class="btn" title="Close Modal" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-dark" title="Create Keep" aria-label="Create Keep">Create</button>
           </div>
         </div>
       </div>
@@ -59,6 +60,7 @@ export default {
           await keepsService.createKeep(editable.value)
           editable.value = {}
           Modal.getOrCreateInstance('#createKeepModal').hide()
+          await keepsService.getAllKeeps()
         } catch (error) {
           Pop.error(error.message, ('[creatingKeep]'))
         }

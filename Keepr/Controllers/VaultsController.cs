@@ -22,6 +22,7 @@ public class VaultsController : ControllerBase
       }
       data.CreatorId = userInfo?.Id;
       var vault = _vs.CreateVault(data);
+      vault.Creator = userInfo;
       return Ok(vault);
     }
     catch (Exception e)
@@ -30,16 +31,13 @@ public class VaultsController : ControllerBase
     }
   }
   [HttpGet("{id}")]
-  public ActionResult<Vault> GetVault(int id)
+  public async Task<ActionResult<Vault>> GetVault(int id)
   {
     try
     {
-      var vault = _vs.GetVault(id);
-      if (vault.IsPrivate == true)
-      {
-        throw new Exception("This vault is private");
-      }
-      return Ok(vault);
+      var userInfo = await _ap.GetUserInfoAsync<Account>(HttpContext);
+      var vault = _vs.GetVault(id, userInfo?.Id);
+      return vault;
     }
     catch (Exception e)
     {
@@ -72,7 +70,7 @@ public class VaultsController : ControllerBase
     try
     {
       var userInfo = await _ap.GetUserInfoAsync<Account>(HttpContext);
-      _vs.DeleteRestaurant(id, userInfo?.Id);
+      _vs.DeleteVault(id, userInfo?.Id);
       return Ok("Vault Deleted");
     }
     catch (Exception e)
@@ -89,17 +87,8 @@ public class VaultsController : ControllerBase
     try
     {
       var userInfo = await _ap.GetUserInfoAsync<Account>(HttpContext);
-      var keeps = _vks.GetKeepsByVaultId(vaultId);
-      var vault = _vs.GetVault(vaultId);
+      var keeps = _vks.GetKeepsByVaultId(vaultId, userInfo);
 
-      if (vault.IsPrivate == true && userInfo?.Id != vault.CreatorId)
-      {
-        throw new Exception("Access Denied");
-      }
-      else if (vault.IsPrivate == true && userInfo?.Id == vault.CreatorId)
-      {
-        return Ok(keeps);
-      }
       return Ok(keeps);
     }
     catch (Exception e)

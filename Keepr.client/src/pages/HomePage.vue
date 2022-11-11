@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
-    <div class="row m-5 justify-content-center">
-      <div class="col-md-10 masonry-with-columns p-3 mt-2">
+    <div class="row  justify-content-center">
+      <div class=" tag col-12 col-md-10 masonry-with-columns  mt-2">
         <KeepCard :key="k.id" :keep="k" v-for="k in keeps" />
       </div>
     </div>
@@ -60,9 +60,19 @@ body {
   column-gap: 1rem;
 
 
+
   img.photo {
     width: 20vw;
     margin-top: 1.5rem
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .masonry-with-columns {
+    columns: 2;
+    margin-left: 2rem;
+    margin-right: 2rem;
+
   }
 }
 </style>

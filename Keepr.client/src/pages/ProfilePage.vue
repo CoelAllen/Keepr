@@ -1,8 +1,8 @@
 <template>
   <div class="row">
-    <div class="mt-3 col-md-12 d-flex justify-content-center">
-      <img class="profile-background" src="https://thiscatdoesnotexist.com" alt="">
-      <img class="profile-image " :src="profile.picture" alt="">
+    <div class="mt-3 pe-0 col-12 col-md-12 d-flex justify-content-center">
+      <img class="profile-background img-fluid " :src="profile.coverImg" alt="https://thiscatdoesnotexist.com/">
+      <img class="profile-image " :src="profile.picture" :alt="profile.name">
     </div>
   </div>
   <div class="row">
@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-8 d-flex flex-wrap me-3">
+    <div class="col-md-8 d-flex cards flex-wrap px-0 mx-0">
 
       <!-- NOTE lining up poorly on page -->
       <VaultCard :key="v.id" :vault="v" v-for="v in vaults" />
@@ -104,9 +104,9 @@ export default {
 .profile-image {
   border-radius: 50%;
   height: 10vh;
-  width: 7vw;
+
   position: absolute;
-  top: 33.5rem;
+  top: 40vh;
   border-color: aliceblue;
   border-width: 2px;
   border-style: solid;
@@ -114,7 +114,8 @@ export default {
 }
 
 .profile-background {
-  position: relative;
+  height: 40vh;
+  width: auto;
 }
 
 .masonry-with-columns {
@@ -125,6 +126,33 @@ export default {
   img.photo {
     width: 20vw;
     margin-top: 1.5rem
+  }
+}
+
+.cards {
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+  .masonry-with-columns {
+    columns: 2;
+    margin-left: 2rem;
+    margin-right: 2rem;
+
+  }
+
+  .profile-background {
+    height: 40vh;
+    width: 100%;
+
+  }
+
+
+  .cards {
+    columns: 2;
+    margin-right: 2rem;
+    margin-left: 2rem;
+
   }
 }
 </style>

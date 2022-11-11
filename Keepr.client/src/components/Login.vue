@@ -1,25 +1,28 @@
 <template>
   <span class="navbar-text">
-    <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" @click="login"
-      v-if="!user.isAuthenticated">
+    <button title="Login" aria-label="Login" class="btn selectable text-dark lighten-30 text-uppercase my-2 my-lg-0"
+      @click="login" v-if="!user.isAuthenticated">
       Login
     </button>
     <div v-else>
       <div class="dropdown dropstart my-2 my-lg-0">
-        <div type="button" class="border-0 selectable no-select" data-bs-toggle="dropdown" aria-expanded="false">
+        <div type="button" class="border-0 selectable no-select" :aria-label="account.name || user.name"
+          data-bs-toggle="dropdown">
           <div v-if="account.picture || user.picture">
-            <img :src="account.picture || user.picture" alt="account photo" height="40" class="login-image" />
+            <img :src="account.picture || user.picture" alt="account photo" height="40" class="login-image"
+              :title="account.name || user.name" />
           </div>
         </div>
         <div class="dropdown-menu dropdown-menu-lg-left p-0" aria-labelledby="authDropdown">
           <div class="list-group">
             <router-link :to="{ name: 'Account' }">
-              <div class="list-group-item dropdown-item list-group-item-action">
+              <div class="list-group-item dropdown-item list-group-item-action" title="Manage Account"
+                aria-label="Manage Account">
                 Manage Account
               </div>
             </router-link>
             <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
-              <i class="mdi mdi-logout"></i>
+              <i class="mdi mdi-logout" title="Logout" aria-label="Logout"></i>
               logout
             </div>
           </div>

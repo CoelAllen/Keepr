@@ -6,6 +6,7 @@
     <router-view />
   </main>
   <KeepDetailModal />
+  <footer class="mt-2"></footer>
 </template>
 
 <script>
@@ -29,6 +30,10 @@ export default {
 
 :root {
   --main-height: calc(100vh - 32px - 64px);
+}
+
+main {
+  overflow-x: hidden;
 }
 
 

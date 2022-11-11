@@ -4,11 +4,15 @@ public class VaultKeepsService
 {
   private readonly VaultKeepsRepository _vkr;
   private readonly VaultsRepository _vr;
+  private readonly KeepsService _ks;
+  private readonly KeepsRepository _kr;
 
-  public VaultKeepsService(VaultKeepsRepository vkr, VaultsRepository vr)
+  public VaultKeepsService(VaultKeepsRepository vkr, VaultsRepository vr, KeepsService ks, KeepsRepository kr)
   {
     _vkr = vkr;
     _vr = vr;
+    _ks = ks;
+    _kr = kr;
   }
 
   internal VaultKeep CreateVaultKeep(VaultKeep data, string userId)
@@ -23,12 +27,23 @@ public class VaultKeepsService
     {
       throw new Exception("Incorrect Login credentials");
     }
-    // 
+    var keep = _ks.GetKeep(vaultKeep.KeepId);
+    keep.Kept++;
+    _kr.UpdateKeep(keep);
     return vaultKeep;
   }
 
-  internal List<VaultedKeep> GetKeepsByVaultId(int vaultId)
+  internal List<VaultedKeep> GetKeepsByVaultId(int vaultId, Account userInfo)
   {
+    var vault = _vr.GetVault(vaultId);
+    if (vault.IsPrivate == true && userInfo.Id != vault.CreatorId)
+    {
+      throw new Exception("git out");
+    }
+    // if (userInfo == null)
+    // {
+    //   throw new Exception("Log... In");
+    // }
     var keeps = _vkr.GetKeepsByVaultId(vaultId);
     return keeps;
   }

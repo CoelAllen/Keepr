@@ -21,22 +21,25 @@
                 <label for="vaultImageInput" class="modal-input">Image URL...</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" v-model="editable.description" class="modal-body form-control" id="vaultImageInput"
-                  placeholder="Description...">
-                <label for="vaultImageInput" class="modal-input">Description...</label>
+                <input type="text" v-model="editable.description" class="modal-body form-control"
+                  id="vaultDescriptionInput" placeholder="Description...">
+                <label for="vaultDescriptionInput" class="modal-input">Description...</label>
               </div>
             </div>
           </div>
           <div class="text-end pb-3 pe-3 modal-head">
             <small class="modal-input">Private Vaults can only be seen by you</small>
-            <div class="me-5 mb-2">
+            <div class=" mb-2">
               <input v-model="editable.isPrivate" class="form-check-input me-1" type="checkbox" value=""
                 id="privateCheck">
               <label class="form-check-label check-outline" for="privateCheck">
                 Make Vault Private?
               </label>
             </div>
-            <button type="submit" class="btn btn-dark b-submit me-4">Create Vault</button>
+            <button type="button" class="btn" title="Close Modal" data-bs-dismiss="modal">Close</button>
+
+            <button type="submit" class="btn btn-dark b-submit " title="Create Vault" aria-label="Create Vault">Create
+              Vault</button>
           </div>
         </div>
       </div>
@@ -48,6 +51,7 @@
 <script>
 import { Modal } from 'bootstrap';
 import { ref } from 'vue';
+import { router } from '../router.js';
 import { vaultsService } from '../services/VaultsService.js';
 import Pop from '../utils/Pop.js';
 
@@ -59,6 +63,7 @@ export default {
       async createVault() {
         try {
           await vaultsService.createVault(editable.value)
+          router.push({ name: 'Home' })
           editable.value = {}
           Modal.getOrCreateInstance('#createVaultModal').hide()
         } catch (error) {
@@ -110,5 +115,11 @@ textarea {
 
 .b-submit {
   width: 12vw;
+}
+
+@media screen and (max-width: 768px) {
+  .b-submit {
+    width: 40vw
+  }
 }
 </style>

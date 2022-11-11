@@ -8,12 +8,11 @@ async createVaultKeep(data, keepId){
   const res = await api.post('api/vaultkeeps', data)
   // res.data.keepId = keepId
   logger.log(res.data, "creating vaultKeep")
-  AppState.vaultKeeps.push(res.data)
   
 }
 async deleteVaultKeep(id){
   const res = await api.delete('api/vaultkeeps/' + id)
-  AppState.vaultKeeps = AppState.vaultKeeps.filter((v)=> v.id != id)
+  AppState.vaultKeeps = AppState.vaultKeeps.filter((v)=> v.vaultKeepId != id)
 }
 }
 export const vaultKeepsService = new VaultKeepsService()

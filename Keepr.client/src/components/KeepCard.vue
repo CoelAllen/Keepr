@@ -1,16 +1,21 @@
 <template>
-  <div @click="getKeepById()" class="selectable top-div rounded elevation-5 mb-4" data-bs-toggle="modal"
+  <div @click="getKeepById()" class="selectable rounded elevation-5 mb-4" data-bs-toggle="modal"
     data-bs-target="#keepDetail">
-    <img :src="keep.img" class="img-fluid rounded" alt="">
-    <div class="keep-card  rounded">
+    <div class="card-row">
 
-      <div class="d-flex align-items-center ps-2">
+      <img :src="keep.img" class="img-fluid rounded image" :alt="keep.name" title="keep.name">
+      <div class="rounded">
 
-        <div>
-          <h4 class="text-light mb-1">{{ keep.name }}</h4>
-        </div>
-        <div v-if="account.id != keep.creatorId">
-          <img :src="keep.creator.picture" :alt="keep.creator.name" class="img-fluid creator-img spread">
+
+        <h4 class="text-light mb-1 text ps-2">{{ keep.name }}</h4>
+
+        <div v-show="$route.name != 'Account' && $route.name != 'Vault'">
+          <div v-if="account.id != keep.creatorId" class="text-2">
+            <img :src="keep.creator.picture" :alt="keep.creator.name" :title="keep.creator.name"
+              class="img-fluid creator-img">
+          </div>
+
+
         </div>
       </div>
     </div>
@@ -63,25 +68,51 @@ export default {
   height: 3vh;
 }
 
+
+
 .keep-card {
   position: absolute;
   bottom: 10px;
 }
 
-.top-div {
-  position: relative;
-
-
-}
-
 .delete {
   color: red;
+}
 
+.image {
+  position: relative;
 
 }
 
+.text {
+  position: absolute;
+  bottom: .5rem;
+}
+
+.text-2 {
+  position: absolute;
+  bottom: .5rem;
+  right: .5rem;
+}
+
+// .card-row {
+//   display: grid;
+// }
+
+// .layer1,
+// .layer2 {
+//   grid-column: 1;
+//   grid-row: 1;
+
+// }
 
 h4 {
   text-shadow: 1px 1px 2px rgb(6, 6, 6)
+}
+
+@media screen and (max-width: 768px) {
+  .creator-img {
+    display: none;
+  }
 }
 </style>

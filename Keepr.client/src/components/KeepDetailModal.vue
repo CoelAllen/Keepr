@@ -30,7 +30,7 @@
               <p :aria-label="keep.description">{{ keep.description }}</p>
             </div>
             <!-- USER INPUTS -->
-            <div class="d-flex me-2 mb-2">
+            <div class="d-flex justify-content-between me-2 mb-2">
 
               <!-- TODO working on the v-if to remove from vault -->
               <div v-if="$route.name == 'Vault' && vault.creatorId == account.id" class="remove">

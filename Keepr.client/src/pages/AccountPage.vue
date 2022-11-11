@@ -50,7 +50,7 @@
             <h1 class="modal-title fs-5" id="accountModalLabel">Edit Account Information</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-head">
             <div class="form-floating mb-3">
               <input type="text" v-model="editable.name" required class="modal-body form-control" id="accountNameInput"
                 placeholder="Name...">
@@ -67,9 +67,9 @@
               <label for="coverImageInput" class="modal-input">Cover Image URL...</label>
             </div>
           </div>
-          <div class="text-end pb-3 pe-3 modal-head">
-            <button type="button" class="btn btn-secondary p-1" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary p-1">Save changes</button>
+          <div class="modal-footer modal-head">
+            <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-dark b-submit">Save changes</button>
           </div>
         </div>
       </div>
@@ -142,9 +142,9 @@ export default {
   border-width: 2px;
   border-style: solid;
   box-shadow: 0px 3px 1px 2px rgba(128, 128, 128, 0.584);
-
-
 }
+
+
 
 .account-background {
   height: 40vh;

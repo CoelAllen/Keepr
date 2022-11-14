@@ -35,7 +35,7 @@
               <!-- TODO working on the v-if to remove from vault -->
               <div v-if="$route.name == 'Vault' && vault.creatorId == account.id" class="remove">
                 <i @click="removeVaultKeep()" class="mdi mdi-cancel selectable" title="Remove Keep from Vault"
-                  aria-label="Remove Keep from Vault"></i> Remove
+                  aria-label="Remove Keep from Vault" data-bs-dismiss="modal"></i> Remove
               </div>
 
 
